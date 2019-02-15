@@ -22,7 +22,7 @@ class App extends Component {
     state = {
      pipesList : [],
      birdLocation : new birdPosition(),
-     pauseDescend : false,
+     pauseDescend : true,
      startFlag : false,
     Score : 0
     }
@@ -34,7 +34,7 @@ class App extends Component {
         this.setState({
             pipesList : [],
         birdLocation : bird,
-        pauseDescend : false,
+        pauseDescend : true,
         startFlag : false,
         Score : 0
         })
@@ -110,7 +110,7 @@ class App extends Component {
                     pipesTemp.push(this.randomize());
                 }
             }else{
-                this.setState({state : this.setInitialState()});
+                this.setState({state : this.setInitialState()}); return ;
             }
     
         }else{
