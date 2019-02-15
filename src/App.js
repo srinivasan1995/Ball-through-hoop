@@ -56,57 +56,51 @@ class App extends Component {
         if(topHeight  < 50 || bottomHeight < 50){
             return false;
         }
-//        if((topHeight + bottomHeight ) - this.width > 30){
-//            return true;
-//        }
-            if(Math.abs(topHeight + bottomHeight -this.height) > 100  ){
-                return true ;
-            }else{
-                return false;
-            }
+
+        if(Math.abs(topHeight + bottomHeight -this.height) > 100  ){
+            return true ;
+        }else{
+            return false;
+        }
     }
     randomize =  () => {
         
         var topHeight , bottomHeight;
         do{
-        topHeight =  Math.floor(Math.random()*this.height);
-        bottomHeight = Math.floor(Math.random()*this.height);
+            topHeight =  Math.floor(Math.random()*this.height);
+            bottomHeight = Math.floor(Math.random()*this.height);
         }while(!this.conditionForPipeGeneration(topHeight,bottomHeight));
         var tempPipes = new Pipes();
-      tempPipes.topx = 480;
-    tempPipes.topHeight = topHeight
-    tempPipes.bottomx = 480;
-    tempPipes.bottomHeight = bottomHeight
-       // console.log("srini" + "topHiehgt = " + topHeight + " " + "bottom height " + bottomHeight)
+        tempPipes.topx = 480;
+        tempPipes.topHeight = topHeight
+        tempPipes.bottomx = 480;
+        tempPipes.bottomHeight = bottomHeight
+       
         return tempPipes;
         
     }
 
     birdDescend = () => {
-     //   console.log("bird descend starts ");
+     
         if(!this.state.pauseDescend){
            // console.log("bird is descending  ");
         var temp = this.state.birdLocation;
         temp.y = temp.y + 10;
         this.setState({birdLocation :temp});
-        }else{
-          //  console.log("bird not  descending  ");
         }
         
-          temp = this.state.birdLocation;
+        temp = this.state.birdLocation;
         var pipesTemp = this.state.pipesList;
         for(var i =0 ;i<this.state.pipesList.length;i++){
         var pipes = this.state.pipesList[i];
-            console.log("pipes.x = " + pipes.topx + "bird location.x = "+ temp.x);
+        
         if(temp.x ===pipes.topx || Math.abs(temp.x-pipes.topx) < 10 ){
-            console.log("srini am i coming here or not which determines game out value score = " + this.state.Score);
+         
             if(temp.y > this.state.pipesList[i].topHeight &&temp.y <(this.height-this.state.pipesList[i].bottomHeight)){
-            console.log("srini you passed ");
+          
                 this.setState({Score : this.state.Score +1});
                  if(pipes.topx < 0){
-                    //console.log("beofre " + pipesTemp.length);
                     pipesTemp.splice(i,1);
-                  //  console.log("after " + pipesTemp.length);
                     pipesTemp.push(this.randomize());
                 }
             }else{
@@ -115,9 +109,7 @@ class App extends Component {
     
         }else{
             if(pipes.topx < 0){
-               // console.log("beofre " + pipesTemp.length);
                 pipesTemp.splice(i,1);
-                //console.log("after " + pipesTemp.length);
                 pipesTemp.push(this.randomize());
             }
         }
@@ -133,30 +125,29 @@ class App extends Component {
     }
     
     detectKeyPress = (e) => {
+    
     var keyValue = e.keyCode;
-        switch(keyValue){
-            case 32:{
-                if(!this.state.startFlag){
-                    console.log("srini start flag enabled ");
-                    
-                    var listval = [];listval.push(this.randomize());
-                    this.setState({pipesList : listval});
-                    this.setState({startFlag : true});
-                    
-                }
-                    
-                var temp = this.state.birdLocation;
-                temp.y = temp.y - 10;
-                this.setState({birdLocation :temp});
-                this.setState({pauseDescend : true});
-                clearInterval(this.birdNotGoingDownIntervalValue);
-                this.birdNotGoingDownIntervalValue = setInterval(this.startBirdDescend,200);
+    switch(keyValue){
+        case 32:{
+            if(!this.state.startFlag){
+                var listval = [];listval.push(this.randomize());
+                this.setState({pipesList : listval});
+                this.setState({startFlag : true});
 
-                break;
             }
-            default :
-                console.log("invalid keys");
+
+            var temp = this.state.birdLocation;
+            temp.y = temp.y - 10;
+            this.setState({birdLocation :temp});
+            this.setState({pauseDescend : true});
+            clearInterval(this.birdNotGoingDownIntervalValue);
+            this.birdNotGoingDownIntervalValue = setInterval(this.startBirdDescend,200);
+
+            break;
         }
+        default :
+            console.log("invalid keys");
+    }
     
     }
     
@@ -182,8 +173,6 @@ class App extends Component {
   render() {
       var temp = [];
       for(var i =0;i<this.state.pipesList.length;i++){
-//          console.log("value of i = " + i);
-//          console.log("srini" + this.state.pipesList[i].topheight + " " + this.state.pipesList[i].topx);
           temp.push(
             <Set>
           <Rect width={30} height = {this.state.pipesList[i].topHeight} x={this.state.pipesList[i].topx} y={0} attr={{"fill":"#0f0"}} />
@@ -195,7 +184,7 @@ class App extends Component {
         <div>
         <div id="flappyBirdCanvas">
         <Paper width={this.width} height={this.height}>
-        <Text x={270} y={30} text={"Score : " + this.state.Score} attr={{"fill" : "#ff0"}} />
+        <Text x={250} y={30} text={"Score : " + this.state.Score} attr={{"fill" : "#ff0","font-size" : "20px"}} />
         <Circle x={this.state.birdLocation.x} y={this.state.birdLocation.y} r={10} attr={{"fill":"#000"}}/>
             {temp}
         </Paper>
