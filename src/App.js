@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
-const {Raphael,Paper,Set,Circle,Ellipse,Image,Rect,Text,Path,Line} = require('react-raphael');
+const {Paper,Set,Circle,Rect,Text} = require('react-raphael');
 class birdPosition {
     constructor(){
         this.x = 0;
         this.y = 0;
-        console.log(this.x + " "+this.y);
     }
 }
 
